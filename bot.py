@@ -630,11 +630,10 @@ async def export_expenses(query, user_id: int, period: str):
     )
 
 def main():
-    """Основная функция"""
-    # Получаем токен и порт из переменных окружения
+    # Получаем переменные окружения
     token = os.getenv('BOT_TOKEN')
     port = int(os.getenv('PORT', 8000))
-    app_name = os.getenv('RENDER_SERVICE_NAME', 'your-app-name')
+    app_name = os.getenv('RENDER_SERVICE_NAME', 'financebot')
     
     if not token:
         logger.error("BOT_TOKEN не установлен в переменных окружения")
@@ -668,11 +667,13 @@ def main():
     logger.info(f"Запуск бота на порту {port}")
     logger.info(f"Webhook URL: {webhook_url}")
     
+    # Запускаем бота с вебхуком
     application.run_webhook(
         listen="0.0.0.0",
         port=port,
         webhook_url=webhook_url,
-        url_path=token
+        url_path=token,
+        secret_token=None
     )
 
 if __name__ == '__main__':
